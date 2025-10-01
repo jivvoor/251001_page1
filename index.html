@@ -37,7 +37,7 @@
       const planForm = document.querySelector("#planForm");
       // 함수
       async function renderPlans() {
-        const url = "http://localhost:3000/plans";
+        const url = "http://localhost:3000/api/plans";
         const response = await fetch(url);
         const data = await response.json();
         console.log(data);
@@ -50,7 +50,30 @@
             <div>[인원수] ${p.people_count}</div>
             <div>[시작일] ${p.start_date}</div>
             <div>[종료일] ${p.end_date}</div>
+            <div>[추천계획] ${p.ai_suggestion}</div>
+            <div>[최소예산] ${p.ai_min_budget}</div>
+            <div>[최대예산] ${p.ai_max_budget}</div>
           `;
+          const removeBtn = document.createElement("button");
+          removeBtn.textContent = "삭제";
+          removeBtn.addEventListener("click", async () => {
+            // const planId = p.id;
+            const { id: planId } = p;
+            const url = "http://localhost:3000/api/plans";
+            const response = await fetch(url, {
+              method: "DELETE", // #1
+              headers: {
+                "Content-Type": "application/json", // #2
+              },
+              body: JSON.stringify({ planId }), // #3
+            });
+            if (!response.ok) {
+              return alert("삭제 과정에서 에러가 발생했습니다!");
+            }
+            alert("정상적으로 삭제되었습니다!");
+            await renderPlans();
+          });
+          planItem.append(removeBtn);
           planBox.append(planItem);
         }
       }
@@ -63,7 +86,7 @@
         // fromEntries -> 객체화
         const planObj = Object.fromEntries(formData.entries());
         console.log(planObj);
-        const url = "http://localhost:3000/plans";
+        const url = "http://localhost:3000/api/plans";
         const response = await fetch(url, {
           method: "POST", // #1
           headers: {
