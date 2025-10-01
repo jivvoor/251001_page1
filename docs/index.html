@@ -37,8 +37,10 @@
       const planForm = document.querySelector("#planForm");
       // 함수
       async function renderPlans() {
-        const url = "http://localhost:3000/api/plans";
-        const response = await fetch(url);
+        // const url = "http://localhost:3000/api/plans";
+        const url = "https://two51001-page1.onrender.com"
+        const response = await fetch(`${url}/api/plans`);
+        // const response = await fetch(
         const data = await response.json();
         console.log(data);
         planBox.innerHTML = "";
