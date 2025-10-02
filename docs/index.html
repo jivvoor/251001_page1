@@ -27,6 +27,9 @@
           종료일 :
           <input type="date" name="end_date" />
         </label>
+        <label>
+          이미지 : <input type="file" name="image" accept="image/*" />
+        </label>
         <button>생성</button>
       </form>
     </section>
@@ -37,8 +40,8 @@
       const planForm = document.querySelector("#planForm");
       // 함수
       async function renderPlans() {
-        // const url = "http://localhost:3000/api/plans";
-        const url = "https://two51001-page1.onrender.com"
+        const url = "http://localhost:3000/api/plans";
+        // const url = "https://two51001-page1.onrender.com"
         const response = await fetch(`${url}/api/plans`);
         // const response = await fetch(
         const data = await response.json();
