@@ -11,6 +11,11 @@
         gap: 6px;
         max-width: 240px;
       }
+
+      .tourImg {
+        max-width: 240px;
+        width: 100%;
+      }
     </style>
   </head>
   <body>
@@ -41,9 +46,7 @@
       // 함수
       async function renderPlans() {
         const url = "http://localhost:3000/api/plans";
-        // const url = "https://two51001-page1.onrender.com"
-        const response = await fetch(`${url}/api/plans`);
-        // const response = await fetch(
+        const response = await fetch(url);
         const data = await response.json();
         console.log(data);
         planBox.innerHTML = "";
@@ -58,6 +61,11 @@
             <div>[추천계획] ${p.ai_suggestion}</div>
             <div>[최소예산] ${p.ai_min_budget}</div>
             <div>[최대예산] ${p.ai_max_budget}</div>
+            ${
+              p.image_url
+                ? `<div><img class="tourImg" src=${p.image_url}></div>`
+                : ""
+            }
           `;
           const removeBtn = document.createElement("button");
           removeBtn.textContent = "삭제";
@@ -94,10 +102,10 @@
         const url = "http://localhost:3000/api/plans";
         const response = await fetch(url, {
           method: "POST", // #1
-          headers: {
-            "Content-Type": "application/json", // #2
-          },
-          body: JSON.stringify(planObj), // #3
+          //headers: {
+          //  "Content-Type": "application/json", // #2
+          // },
+          body:formData, // #3
         });
         if (!response.ok) {
           return alert("생성 과정에서 에러가 발생했습니다!");
